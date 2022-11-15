@@ -166,24 +166,28 @@ def init_logging(name, console_level, filename=None, console_format=None, file_f
 
 
 
-logger = init_logging("Logger", "DEBUG", "log.log")
-
-@ConsoleFormatter.Watcher("INFO")
-def print_something(something1, something2):
-    logger.info("{} {}", something1, something2)
-
-
-# logger.info("Hello World")
-# logger.info("Request from {} handled in {:.3f} ms", "127.0.0.1", 33.1)
-# logger.info("My favorite drinks are {}, {}, {}, {}", "milk", "wine", "tea", "beer")
-# logger.debug("this is a {} message", logging.getLevelName(logging.DEBUG))
-# logger.info("this is a {} message", logging.getLevelName(logging.INFO))
-logger.warning("this is a {} message", logging.getLevelName(logging.WARNING))
-# logger.error("this is a {} message", logging.getLevelName(logging.ERROR))
-# logger.critical("this is a {} message", logging.getLevelName(logging.CRITICAL))
-# logger.info("Does old-style formatting also work? %s it is, but no colors (yet)", True)
 
 
 
-print_something("hello", "world")
-logger.critical("this is a {} message", logging.getLevelName(logging.CRITICAL))
+if __name__ == "__main__":
+    logger = init_logging("Logger", "DEBUG", "log.log")
+
+    @ConsoleFormatter.Watcher("INFO")
+    def print_something(something1, something2):
+        logger.info("{} {}", something1, something2)
+
+
+    # logger.info("Hello World")
+    # logger.info("Request from {} handled in {:.3f} ms", "127.0.0.1", 33.1)
+    # logger.info("My favorite drinks are {}, {}, {}, {}", "milk", "wine", "tea", "beer")
+    # logger.debug("this is a {} message", logging.getLevelName(logging.DEBUG))
+    # logger.info("this is a {} message", logging.getLevelName(logging.INFO))
+    logger.warning("this is a {} message", logging.getLevelName(logging.WARNING))
+    # logger.error("this is a {} message", logging.getLevelName(logging.ERROR))
+    # logger.critical("this is a {} message", logging.getLevelName(logging.CRITICAL))
+    # logger.info("Does old-style formatting also work? %s it is, but no colors (yet)", True)
+
+
+
+    print_something("hello", "world")
+    logger.critical("this is a {} message", logging.getLevelName(logging.CRITICAL))
