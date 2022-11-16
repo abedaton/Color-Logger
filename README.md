@@ -33,4 +33,4 @@ logger.critical("This is a critical message")
 
 As you can see, the Logger uses the `logging` module behind the scene so most of the it's functions should work fine.
 
-<img src="https://github.com/abedaton/tools/blob/main/img/logger_result.png" width=40%>
+<img src="https://github.com/abedaton/tools/blob/main/img/logger_result.png">
