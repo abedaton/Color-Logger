@@ -9,9 +9,9 @@ except ModuleNotFoundError:
     from logger.colors import ColorCodes
 
 class ConsoleFormatter(logging.Formatter):
-    arg_colors = [ColorCodes.pink, ColorCodes.light_blue]
-    level_fields = ["levelname", "levelno"]
-    level_to_color = {
+    arg_colors: list[str] = [ColorCodes.pink, ColorCodes.light_blue]
+    level_fields: list[str] = ["levelname", "levelno"]
+    level_to_color: dict[int, str] = {
         logging.DEBUG: ColorCodes.green,
         logging.INFO: ColorCodes.blue,
         logging.WARNING: ColorCodes.orange,
@@ -19,7 +19,7 @@ class ConsoleFormatter(logging.Formatter):
         logging.CRITICAL: ColorCodes.bold_red,
     }
 
-    string_to_level = {
+    string_to_level: dict[str, int] = {
         "DEBUG": logging.DEBUG,
         "INFO": logging.INFO,
         "WARNING": logging.WARNING,
@@ -27,13 +27,13 @@ class ConsoleFormatter(logging.Formatter):
         "CRITICAL": logging.CRITICAL,
     }
 
-    def __init__(self, fmt: str):
+    def __init__(self, fmt: str) -> None:
         super().__init__()
-        self.level_to_formatter = {}
+        self.level_to_formatter: dict[int, logging.Formatter] = {}
 
-        def add_color_format(level: int):
-            _format = self.level_to_color[level] + fmt + ColorCodes.reset
-            formatter = logging.Formatter(_format)
+        def add_color_format(level: int) -> None:
+            _format: str = self.level_to_color[level] + fmt + ColorCodes.reset
+            formatter: logging.Formatter = logging.Formatter(_format)
             self.level_to_formatter[level] = formatter
 
         add_color_format(logging.DEBUG)
@@ -42,39 +42,39 @@ class ConsoleFormatter(logging.Formatter):
         add_color_format(logging.ERROR)
         add_color_format(logging.CRITICAL)
 
-    def rewrite_record(self, record: logging.LogRecord):
-        msg = str(record.msg)
-        msg = msg.replace("{", "_{{")
-        msg = msg.replace("}", "_}}")
-        placeholder_count = 0
+    def rewrite_record(self, record: logging.LogRecord) -> None:
+        msg: str = str(record.msg)
+        msg: str = msg.replace("{", "_{{")
+        msg: str = msg.replace("}", "_}}")
+        placeholder_count: int = 0
         while True:
             if "_{{" not in msg:
                 break
-            color_index = placeholder_count % len(self.arg_colors)
-            argcolor = self.arg_colors[color_index]
-            msg = msg.replace("_{{", argcolor + "{", 1)
-            msg = msg.replace("_}}", "}" + ColorCodes.reset + self.level_to_color[record.levelno], 1)
+            color_index: int = placeholder_count % len(self.arg_colors)
+            argcolor: str = self.arg_colors[color_index]
+            msg: int = msg.replace("_{{", argcolor + "{", 1)
+            msg: int = msg.replace("_}}", "}" + ColorCodes.reset + self.level_to_color[record.levelno], 1)
             placeholder_count += 1
 
         record.msg = msg.format(*record.args)
         record.args = []
 
-    def format(self, record):
-        orig_msg = record.msg
+    def format(self, record: logging.LogRecord) -> str:
+        orig_msg: str = record.msg
         orig_args = record.args
-        formatter = self.level_to_formatter.get(record.levelno)
+        formatter: logging.Formatter = self.level_to_formatter.get(record.levelno)
         self.rewrite_record(record)
-        formatted = formatter.format(record)
+        formatted: str = formatter.format(record)
         record.msg = orig_msg
         record.args = orig_args
         return formatted
 
-    def Watcher(level):
-        def _Watcher(func):
+    def Watcher(level: str) -> callable:
+        def _Watcher(func: callable) -> callable:
             @wraps(func)
-            def wrapper(*args, **kwargs):
-                watcher = logging.getLogger("Logger")
-                old_name = watcher.name
+            def wrapper(*args, **kwargs) -> callable:
+                watcher: logging.Logger  = logging.getLogger("Logger")
+                old_name: str = watcher.name
                 watcher.name = "Watcher"
                 if level == "DEBUG":
                     watcher.debug("Call: {0}({1}, {2})", func.__name__, args, kwargs)
@@ -98,16 +98,16 @@ class FileFormatter(logging.Formatter):
         super().__init__()
         self.formatter = logging.Formatter(fmt)
     
-    def is_brace_format_style(self, record):
+    def is_brace_format_style(self, record: logging.LogRecord) -> bool:
         if len(record.args) == 0:
             return False
 
-        msg = record.msg
+        msg: str = record.msg
         if "%" in msg:
             return False
         
-        count_of_start = msg.count("{")
-        count_of_end = msg.count("}")
+        count_of_start: int = msg.count("{")
+        count_of_end: int = msg.count("}")
 
         if count_of_start != count_of_end:
             return False
@@ -117,20 +117,20 @@ class FileFormatter(logging.Formatter):
 
         return True
 
-    def rewrite_record(self, record):
+    def rewrite_record(self, record: logging.LogRecord) -> None:
         if not self.is_brace_format_style(record):
             return
         
-        record.msg = record.msg.format(*record.args)
-        record.args = []
+        record.msg: str = record.msg.format(*record.args)
+        record.args: list = []
 
-    def format(self, record):
-        original_msg = record.msg
+    def format(self, record: logging.LogRecord) -> str:
+        original_msg: str = record.msg
         original_args = record.args
         self.rewrite_record(record)
-        formatted = self.formatter.format(record)
+        formatted: str = self.formatter.format(record)
 
-        record.msg = original_msg
+        record.msg: str = original_msg
         record.args = original_args
         return formatted
 
