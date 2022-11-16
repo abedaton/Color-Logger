@@ -17,7 +17,7 @@ The module currently contains the following classes:
 - `FileFormatter` - A class that `format` and output to a `file`.
 
 
-### Example
+### Logger Example
 
 ```python
 from logger import init_logging
@@ -34,3 +34,25 @@ logger.critical("This is a critical message")
 As you can see, the Logger uses the `logging` module behind the scene so most of the it's functions should work fine.
 
 <img src="https://github.com/abedaton/tools/blob/main/img/logger_result.png">
+
+### Watcher Example
+Watcher is a wrapper that can easily be placed in order to track the calls of your code.
+
+```python
+from logger.logger import init_logging
+from logger.logger import ConsoleFormatter
+
+@ConsoleFormatter.Watcher("INFO")
+def addition(a, b):
+    return a + b
+
+logger = init_logging("My Logger", "DEBUG", "log.log")
+
+logger.debug("This is debug message")
+logger.debug(addition(1, 2))
+logger.error("This is an error message")
+```
+
+The Watcher takes it's own level of logging
+
+<img src="https://github.com/abedaton/tools/blob/main/img/watcher_result.png">

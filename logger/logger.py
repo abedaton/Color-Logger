@@ -43,7 +43,7 @@ class ConsoleFormatter(logging.Formatter):
         add_color_format(logging.CRITICAL)
 
     def rewrite_record(self, record: logging.LogRecord):
-        msg = record.msg
+        msg = str(record.msg)
         msg = msg.replace("{", "_{{")
         msg = msg.replace("}", "_}}")
         placeholder_count = 0
