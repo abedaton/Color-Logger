@@ -33,8 +33,4 @@ logger.critical("This is a critical message")
 
 As you can see, the Logger uses the `logging` module behind the scene so most of the it's functions should work fine.
 
-<span style="color:#8cd462">2022-11-16 09:46:34,371 [DEBUG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ][My Logger] - This is a debug message (test.py:5)</span><br/>
-<span style="color:#78aec6">2022-11-16 09:46:34,372 [INFO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;][My Logger] - This is an info message (test.py:6)</span><br/>
-<span style="color:#dfa318">2022-11-16 09:46:34,372 [WARNING][My Logger] - This is a warning message (test.py:7)</span><br/>
-<span style="color:#cb6b6f">2022-11-16 09:46:34,372 [ERROR&nbsp; &nbsp; &nbsp; ][My Logger] - This is an error message (test.py:8)</span><br/>
-**<span style="color:#f66166">2022-11-16 09:46:34,372 [CRITICAL&nbsp; ][My Logger] - This is a critical message (test.py:9)</span><br/>**
+<img src="https://github.com/abedaton/tools/blob/main/img/logger_result.png" width=40%>
